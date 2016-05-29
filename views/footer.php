@@ -16,10 +16,11 @@
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			  <span aria-hidden="true">&times;</span>
 			</button>
-			<h4 class="modal-title" id="myModalLabel">Login</h4>
+			<h4 class="modal-title" id="optionTitle">Login</h4>
 		  </div>
 		  <div class="modal-body">
 			<form>
+				<input type="hidden" id="optionActive" value="1" />
 			  <fieldset class="form-group">
 				<label for="email">Email</label>
 				<input type="email" class="form-control" id="email" placeholder="Email address">
@@ -31,12 +32,45 @@
 			</form>
 		  </div>
 		  <div class="modal-footer">
+			<a id="toggleSignupLogin">Sign up</a>
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary">Login</button>
+			<button type="button" id="optionBtn" class="btn btn-primary">Login</button>
 		  </div>
 		</div>
 	  </div>
 	</div>
+	
+	<script>
+		$("#toggleSignupLogin").on("click", function() {
+			
+			if ($("#optionActive").val() == "1") {
+				$("#optionActive").val("0");
+				$("#optionTitle").html("Sign up");
+				$("#optionBtn").html("Sign up");
+				$("#toggleSignupLogin").html("Login");
+				
+			} else {
+				$("#optionActive").val("1");
+				$("#optionTitle").html("Login");
+				$("#optionBtn").html("Login");
+				$("#toggleSignupLogin").html("Sign up");
+			}
+		});
+		
+		$("#optionBtn").on("click", function() {
+			
+			$.ajax({
+				type: "post",
+				url: "actions.php?action=loginSignup",
+				data: "email=" + $("#email").val() + "&password=" + $("#password").val() + "&optionActive=" + $("#optionActive").val(),
+				success: function(result) {
+					alert(result);
+				}
+				
+			});
+		});
+		
+	</script>
 	
   </body>
 </html>
