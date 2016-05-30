@@ -21,3 +21,11 @@ body {
 #toggleSignupLogin {
 	margin-right: 10px;
 }
+
+#optionAlert {
+	display: none;
+}
+
+.pad20{
+	padding: 20px;
+}

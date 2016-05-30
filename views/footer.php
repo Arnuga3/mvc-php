@@ -19,6 +19,7 @@
 			<h4 class="modal-title" id="optionTitle">Login</h4>
 		  </div>
 		  <div class="modal-body">
+			<div class="alert alert-danger" id="optionAlert"></div>
 			<form>
 				<input type="hidden" id="optionActive" value="1" />
 			  <fieldset class="form-group">
@@ -64,7 +65,11 @@
 				url: "actions.php?action=loginSignup",
 				data: "email=" + $("#email").val() + "&password=" + $("#password").val() + "&optionActive=" + $("#optionActive").val(),
 				success: function(result) {
-					alert(result);
+					if (result == "1") {
+						window.location.assign("http://localhost/arnuga3/mvc-php/");
+					} else {
+						$("#optionAlert").html(result).show();
+					}
 				}
 				
 			});

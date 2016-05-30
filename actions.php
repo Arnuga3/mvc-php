@@ -29,14 +29,31 @@
 			} else {
 				$query = "INSERT INTO users (email, password) VALUES ('". mysqli_real_escape_string($link, $email)."','". mysqli_real_escape_string($link, $password)."')";
 				if (mysqli_query($link, $query)) {
+					
+					$_SESSION["id"] = mysqli_insert_id($link);
+					
+					$query = "UPDATE users SET password = '".md5(md5($_SESSION["id"]).$password)."' WHERE id = ".$_SESSION["id"]." LIMIT 1";
+					mysqli_query($link, $query);					
 					echo 1;
+					
 				} else {
 					$error = "Couldn't create a user - please try again.";
 				}
 			}
 			
 		} else {
-			echo "Login";
+			$query = "SELECT * FROM users WHERE email = '". mysqli_real_escape_string($link, $email)."' LIMIT 1";
+			$result = mysqli_query($link, $query);
+			$row = mysqli_fetch_assoc($result);
+			
+			if ($row["password"] == md5(md5($row["id"]).$password)) {
+				
+				$_SESSION["id"] = $row["id"];
+				
+				echo 1;
+			} else {
+				$error = "An email or a password is not correct. Please try again.";
+			}
 		}
 		if ($error != "") {
 			echo $error;

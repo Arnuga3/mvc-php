@@ -26,6 +26,11 @@
 			</li>
 		  </ul>
 		  <div class="form-inline pull-xs-right">
-			<button class="btn btn-success-outline" data-toggle="modal" data-target="#myModal">Login/Signup</button>
+			<?php if (isset($_SESSION["id"])) { ?>
+					<a class="btn btn-success-outline" href="?function=logout">Logout</a>
+			<?php } else { ?>
+					<button class="btn btn-success-outline" data-toggle="modal" data-target="#myModal">Login/Signup</button>				
+			<?php } ?>
+
 		  </div>
 		</nav>
